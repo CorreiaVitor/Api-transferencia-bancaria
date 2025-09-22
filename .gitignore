@@ -1,0 +1,11 @@
+
+### Composer ###
+composer.phar
+/vendor/
+
+### dotenv ###
+.env
+.env.local
+
+.vscode/
+.DS_Store
