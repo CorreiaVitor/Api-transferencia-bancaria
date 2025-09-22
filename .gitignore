@@ -1,7 +1,7 @@
 
 ### Composer ###
 composer.phar
-/vendor/
+vendor/
 
 ### dotenv ###
 .env
