@@ -1,0 +1,21 @@
+{
+    "name": "vitordev/projeto-api",
+    "description": "API para transferência de dinheiro desenvolvida como desafio do site DevGym.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vitor Correia",
+            "email": "vitorcorreia.git@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6.2"
+    }
+}
