@@ -2,52 +2,53 @@
 
 namespace App\Http;
 
-class Routes
+class Router
 {
 
-    private static array $routers = [];
+    private static $route;
 
-    public static function get(string $path, string $action): void
+    public static function get(string $route, $handler): void
     {
-        self::$routers[] =
-            [
-                "path" => $path,
-                "action" => $action,
-                "method" => "GET"
-            ];
-    }
-
-    public static function post(string $path, $action): void
-    {
-        self::$routers[] =
-            [
-                "path" => $path,
-                "action" => $action,
-                "method" => "POST"
-            ];
-    }
-
-    public static function put(string $path, string $action): void
-    {
-        self::$routers[] = [
-            
-            "path" => $path,
-            "action" => $action,
-            "method" => "PUT",
+        self::$route[] = [
+            "path" => $route,
+            "controller" => (!is_string($handler)) ? $handler : strstr($handler, ':', true),
+            "action" => (!is_string($handler)) ?: str_replace(':', '', strstr($handler, ':', false)),
+            "method" => 'GET'
         ];
     }
 
-    public static function delete(string $path, string $action): void
+    public static function post(string $route, $handler): void
     {
-        self::$routers[] = [
-            "path" => $path,
-            "action" => $action,
-            "method" => "DELETE",
+        self::$route[] = [
+            "path" => $route,
+            "controller" => (!is_string($handler)) ? $handler : strstr($handler, ':', true),
+            "action" => (!is_string($handler)) ?: str_replace(':', '', strstr($handler, ':', false)),
+            "method" => 'POST'
         ];
     }
 
-    public static function routes() : array
+    public static function put(string $route, $handler): void
     {
-        return self::$routers;    
+        self::$route[] = [
+            "path" => $route,
+            "controller" => (!is_string($handler)) ? $handler : strstr($handler, ':', true),
+            "action" => (!is_string($handler)) ?: str_replace(':', '', strstr($handler, ':', false)),
+            "method" => 'PUT'
+        ];
+    }
+
+    public static function delete(string $route, mixed $handler): void
+    {
+        self::$route[] = [
+            "path" => $route,
+            "controller" => (!is_string($handler)) ? $handler : strstr($handler, ':', true),
+            "action" => (!is_string($handler)) ?: str_replace(':', '', strstr($handler, ':', false)),
+            "method" => 'DELETE'
+        ];
+    }
+
+    public static function routes(): array
+    {
+        return self::$route;
     }
 }
