@@ -75,4 +75,15 @@ class User extends Database
 
         return $stmt->rowCount() > 0 ? true : false;
     }
+
+     public function remove(mixed $authentication)
+    {
+        $stmt = $this->conn->prepare(USER_SQL::DELETE());
+
+        $stmt->execute([
+            $authentication['id']
+        ]);
+
+        return $stmt->rowCount() > 0 ? true : false;
+    }
 }

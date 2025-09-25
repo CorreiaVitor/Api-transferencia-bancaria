@@ -44,4 +44,11 @@ class USER_SQL
         
         return $sql;
     }
+
+    public static function DELETE()
+    {
+        $sql = "DELETE FROM tb_user WHERE person_id =?";
+
+        return $sql;
+    }
 }

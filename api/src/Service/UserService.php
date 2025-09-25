@@ -82,4 +82,24 @@ class UserService
             return MessageUtil::error($ex->getMessage());
         }
     }
+
+    public function remove(mixed $authentication)
+    {
+        try {
+
+            if(!$authentication)
+                return MessageUtil::error('Please, login to access this resource.');
+
+            $user = $this->model->remove($authentication);
+
+            if (!$user) 
+                return MessageUtil::error('Sorry, we could not delete your account.');
+
+            return $user;
+        } catch (PDOException $ex) {
+            return ValidationUtil::errorBD($ex->errorInfo);
+        } catch (\Exception $ex) {
+            return MessageUtil::error($ex->getMessage());
+        }
+    }
 }

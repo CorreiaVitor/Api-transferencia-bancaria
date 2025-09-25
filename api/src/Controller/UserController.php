@@ -73,4 +73,26 @@ class UserController
             MessageUtil::success('User updated successfully!')
         );
     }
+
+    public function delete()
+    {
+        $authentication = Request::authorization();
+
+        $service = $this->service->remove($authentication);
+
+        if (isset($service['error']))
+            return Response::json($service, 400);
+
+        elseif (isset($service['unauthorized']))
+            return Response::json($service, 401);
+
+        elseif (isset($service['dbError']))
+            return Response::json($service, 500);
+
+
+        return Response::json(
+            MessageUtil::success('User remove successfully!')
+        );
+    }
+
 }
