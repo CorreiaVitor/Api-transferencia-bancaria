@@ -40,4 +40,19 @@ class UserService
             return MessageUtil::error($ex->getMessage());
         }
     }
+
+    public function show(mixed $authentication): mixed
+    {
+        try {
+
+            if (!$authentication)
+                return MessageUtil::unauthorized('Please, login to access this resource.');
+
+            return $this->model->find($authentication);
+        } catch (PDOException $ex) {
+            return ValidationUtil::errorBD($ex->errorInfo);
+        } catch (\Exception $ex) {
+            return MessageUtil::error($ex->getMessage());
+        }
+    }
 }

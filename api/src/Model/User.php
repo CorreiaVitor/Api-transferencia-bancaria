@@ -5,6 +5,7 @@ namespace App\Model;
 use App\Model\SQL\USER_SQL;
 use App\Util\DateUtil;
 use App\Util\ValidationUtil;
+use PDO;
 
 class User extends Database
 {
@@ -42,5 +43,18 @@ class User extends Database
         }
 
         return $ret;
+    }
+
+    public function find(array $data): array
+    {
+        $stmt = $this->conn->prepare(USER_SQL::SHOW());
+
+        $stmt->execute(
+            [
+                $data['id']
+            ]
+        );
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -20,4 +20,16 @@ class USER_SQL
 
         return $sql;
     }
+
+    public static function SHOW()
+    {
+        $sql = "SELECT 
+                    person_id, first_name, last_name, email 
+                FROM 
+                    tb_user 
+                WHERE 
+                    person_id = ?";
+        
+        return $sql;
+    }
 }
