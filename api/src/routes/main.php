@@ -2,7 +2,7 @@
 
 use App\Http\Router;
 
-// Router::post("/auth/login", "AuthController:login");
+Router::post("/auth/login", "AuthController:login");
 
 //Users 
 
