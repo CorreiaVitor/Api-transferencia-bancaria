@@ -9,7 +9,7 @@ Router::post("/auth/login", "AuthController:login");
 Router::get("/users", "UserController:show");
 Router::post("/users", "UserController:store");
 Router::put("/users", "UserController:update");
-Router::delete("/users/{id}", "UserController:delete");
+Router::delete("/users", "UserController:delete");
 
 //Accounts
 
