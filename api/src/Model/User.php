@@ -57,4 +57,22 @@ class User extends Database
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+     public function update(array $data, mixed $authentication): bool
+    {
+        $stmt = $this->conn->prepare(USER_SQL::UPDATE());
+
+        $stmt->execute(
+            [
+                $data['name'],
+                $data['last_name'],
+                $data['email'],
+                ValidationUtil::passwordHash($data['password']),
+                DateUtil::currentDateTime(),
+                $authentication['id']
+            ]
+        );
+
+        return $stmt->rowCount() > 0 ? true : false;
+    }
 }

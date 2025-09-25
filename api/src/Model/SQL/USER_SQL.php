@@ -32,4 +32,16 @@ class USER_SQL
         
         return $sql;
     }
+
+    public static function UPDATE()
+    {
+        $sql = "UPDATE 
+                    tb_user 
+                SET 
+                    first_name = ?, last_name = ?, email = ?, password = ?, update_at = ? 
+                WHERE 
+                    person_id = ?";
+        
+        return $sql;
+    }
 }
