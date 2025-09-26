@@ -60,4 +60,18 @@ class Accounts extends Database
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getAccountById($id, array $auth) : array | bool
+    {
+        $stmt = $this->conn->prepare(ACCOUNTS_SQL::GET_ACCOUNT_BY_ID());
+
+        $stmt->execute(
+            [
+                $auth['id'],
+                $id
+            ]
+        );
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

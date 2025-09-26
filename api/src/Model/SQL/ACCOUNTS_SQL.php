@@ -34,4 +34,18 @@ class ACCOUNTS_SQL
 
         return $sql;
     }
+
+    public static function GET_ACCOUNT_BY_ID()
+    {
+        $sql = "SELECT 
+                    bank_id, bank_name, balance, account_number, first_name
+                FROM
+                    tb_bank_account
+                LEFT JOIN
+                    tb_user ON tb_bank_account.tb_user_person_id = tb_user.person_id
+                WHERE
+                    tb_user_person_id = ? and bank_id = ?";
+
+        return $sql;
+    }
 }

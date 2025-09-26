@@ -53,4 +53,24 @@ class AccountsController
 
         return Response::json($service);
     }
+
+    public function show(array $data)
+    {
+
+        $authentication = Request::authorization();
+        $id = intval($data[0]);
+
+        $service = $this->service->show($id, $authentication);
+
+        if (isset($service['error']))
+            return Response::json($service, 400);
+
+        elseif (isset($service['unauthorized']))
+            return Response::json($service, 401);
+
+        elseif (isset($service['dbError']))
+            return Response::json($service, 500);
+
+        return Response::json($service);
+    }
 }

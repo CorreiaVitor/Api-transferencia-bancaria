@@ -57,4 +57,24 @@ class AccountsService
             return MessageUtil::error($ex->getMessage());
         }
     }
+
+    public function show(int $id, array $auth) : mixed
+    {
+        try {
+
+            if (!$auth)
+                return MessageUtil::unauthorized('Please, login to access this resource.');
+
+            $account = $this->model->getAccountById($id, $auth);
+
+            if (!$account)
+                return MessageUtil::error('We couldn’t find your bank account.');
+
+            return $account;
+        } catch (PDOException $ex) {
+            return ValidationUtil::errorBD($ex->errorInfo);
+        } catch (\Exception $ex) {
+            return MessageUtil::error($ex->getMessage());
+        }
+    }
 }
