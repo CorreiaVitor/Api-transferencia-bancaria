@@ -18,7 +18,7 @@ class Accounts extends Database
         $this->conn = parent::returnConnection();
     }
 
-    public function save(array $data, int $id) : bool
+    public function save(array $data, int $id): bool
     {
 
         $stmt = $this->conn->prepare(ACCOUNTS_SQL::VERIFY_ACCOUNTS());
@@ -27,7 +27,7 @@ class Accounts extends Database
             $data['account'],
             $data['bank']
         ]);
-  
+
         $ret = $stmt->rowCount() == 0;
 
 
@@ -48,7 +48,7 @@ class Accounts extends Database
         return $ret;
     }
 
-    public function find(mixed $auth) : array
+    public function find(mixed $auth): array
     {
         $stmt = $this->conn->prepare(ACCOUNTS_SQL::FIND());
 
@@ -61,7 +61,7 @@ class Accounts extends Database
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAccountById($id, array $auth) : array | bool
+    public function getAccountById($id, array $auth): array | bool
     {
         $stmt = $this->conn->prepare(ACCOUNTS_SQL::GET_ACCOUNT_BY_ID());
 
@@ -73,5 +73,30 @@ class Accounts extends Database
         );
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function remove(array $auth, int $id): bool
+    {
+
+        $stmt = $this->conn->prepare(ACCOUNTS_SQL::GET_ACCOUNT_BY_ID());
+
+        $stmt->execute([
+            $auth['id'],
+            $id
+        ]);
+
+        $ret = $stmt->rowCount() > 0;
+
+        if ($ret) {
+            $stmt = $this->conn->prepare(ACCOUNTS_SQL::DELETE());
+
+            $stmt->execute([
+                $id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        }
+
+        return $ret;
     }
 }

@@ -48,4 +48,11 @@ class ACCOUNTS_SQL
 
         return $sql;
     }
+
+     public static function DELETE()
+    {
+        $sql = "DELETE FROM tb_bank_account WHERE bank_id = ?";
+
+        return $sql;
+    }
 }

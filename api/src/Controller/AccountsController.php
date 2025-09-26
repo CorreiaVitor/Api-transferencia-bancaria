@@ -73,4 +73,25 @@ class AccountsController
 
         return Response::json($service);
     }
+
+    public function delete(array $data)
+    {
+        $auth = Request::authorization();
+        $id = intval($data[0]);
+
+        $service = $this->service->remove($auth, $id);
+
+        if (isset($service['error']))
+            return Response::json($service, 400);
+
+        elseif (isset($service['unauthorized']))
+            return Response::json($service, 401);
+
+        elseif (isset($service['dbError']))
+            return Response::json($service, 500);
+
+        return Response::json(
+            MessageUtil::success('Bank account removed successfully')
+        );
+    }
 }

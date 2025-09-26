@@ -77,4 +77,24 @@ class AccountsService
             return MessageUtil::error($ex->getMessage());
         }
     }
+
+    public function remove(array $auth, int $id)
+    {
+        try {
+
+            if(!$auth)
+                return MessageUtil::error('Please, login to access this resource.');
+
+            $accounts = $this->model->remove($auth, $id);
+
+            if (!$accounts) 
+                return MessageUtil::error('Sorry, we could not delete your account.');
+
+            return $accounts;
+        } catch (PDOException $ex) {
+            return ValidationUtil::errorBD($ex->errorInfo);
+        } catch (\Exception $ex) {
+            return MessageUtil::error($ex->getMessage());
+        }
+    }
 }
