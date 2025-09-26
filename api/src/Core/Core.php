@@ -34,7 +34,7 @@ class Core
             // Verifica o método
             $methodMatched = true;
 
-            $pattern = '#^' . preg_replace('/{[\w]+}/', '([\w]+)', $route['path']) . '$#';
+            $pattern = '#^' . preg_replace('/{[\w]+}/', '([\d]+)', $route['path']) . '$#';
 
             //Verifica se a URL atual bate com o padrão da rota.
             // Se não bater, pula para a próxima rota.
