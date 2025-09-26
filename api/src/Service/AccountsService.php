@@ -19,7 +19,7 @@ class AccountsService
         $this->model = new Accounts;
     }
 
-    public function create(array $data, mixed $auth)
+    public function create(array $data, mixed $auth) : mixed
     {
         try {
 
@@ -41,5 +41,20 @@ class AccountsService
             return MessageUtil::error($ex->getMessage());
         }
 
+    }
+
+    public function index(array $auth) : mixed
+    {
+        try {
+
+            if (!$auth)
+                return MessageUtil::unauthorized('Please, login to access this resource.');
+
+            return $this->model->find($auth);
+        } catch (PDOException $ex) {
+            return ValidationUtil::errorBD($ex->errorInfo);
+        } catch (\Exception $ex) {
+            return MessageUtil::error($ex->getMessage());
+        }
     }
 }

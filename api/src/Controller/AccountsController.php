@@ -35,4 +35,22 @@ class AccountsController
             201
         );
     }
+
+    public function index()
+    {
+        $authentication = Request::authorization();
+
+        $service = $this->service->index($authentication);
+
+        if (isset($service['error']))
+            return Response::json($service, 400);
+
+        elseif (isset($service['unauthorized']))
+            return Response::json($service, 401);
+
+        elseif (isset($service['dbError']))
+            return Response::json($service, 500);
+
+        return Response::json($service);
+    }
 }

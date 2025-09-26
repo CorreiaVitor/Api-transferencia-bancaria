@@ -5,6 +5,9 @@ namespace App\Model;
 use App\Model\Database;
 use App\Model\SQL\ACCOUNTS_SQL;
 use App\Util\DateUtil;
+use App\Util\MessageUtil;
+use App\Util\ValidationUtil;
+use PDO;
 
 class Accounts extends Database
 {
@@ -15,7 +18,7 @@ class Accounts extends Database
         $this->conn = parent::returnConnection();
     }
 
-    public function save(array $data, int $id)
+    public function save(array $data, int $id) : bool
     {
 
         $stmt = $this->conn->prepare(ACCOUNTS_SQL::VERIFY_ACCOUNTS());
@@ -43,5 +46,18 @@ class Accounts extends Database
         }
 
         return $ret;
+    }
+
+    public function find(mixed $auth) : array
+    {
+        $stmt = $this->conn->prepare(ACCOUNTS_SQL::FIND());
+
+        $stmt->execute(
+            [
+                $auth['id']
+            ]
+        );
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
