@@ -16,7 +16,7 @@ Router::delete("/users", "UserController:delete");
 Router::get("/accounts", "AccountsController:index");
 Router::get("/accounts/{id}", "AccountsController:show");
 Router::post("/accounts", "AccountsController:store");
-Router::put("/accounts/{id}", "AccountsController:update");
+// Router::put("/accounts/{id}", "AccountsController:update");
 Router::delete("/accounts/{id}", "AccountsController:delete");
 
 
