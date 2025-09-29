@@ -19,6 +19,10 @@ Router::post("/accounts", "AccountsController:store");
 // Router::put("/accounts/{id}", "AccountsController:update");
 Router::delete("/accounts/{id}", "AccountsController:delete");
 
+//Transaction
+
+Router::post("/transaction", "BankTransferController:moneyTransfer");
+
 
 
 
