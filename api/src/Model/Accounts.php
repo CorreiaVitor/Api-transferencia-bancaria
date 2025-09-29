@@ -5,8 +5,6 @@ namespace App\Model;
 use App\Model\Database;
 use App\Model\SQL\ACCOUNTS_SQL;
 use App\Util\DateUtil;
-use App\Util\MessageUtil;
-use App\Util\ValidationUtil;
 use PDO;
 
 class Accounts extends Database
