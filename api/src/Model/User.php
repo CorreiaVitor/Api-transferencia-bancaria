@@ -45,7 +45,7 @@ class User extends Database
         return $ret;
     }
 
-    public function find(array $data): array
+    public function find(array $data): array | bool
     {
         $stmt = $this->conn->prepare(USER_SQL::SHOW());
 
@@ -58,7 +58,7 @@ class User extends Database
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-     public function update(array $data, mixed $authentication): bool
+    public function update(array $data, mixed $authentication): bool
     {
         $stmt = $this->conn->prepare(USER_SQL::UPDATE());
 
@@ -76,7 +76,7 @@ class User extends Database
         return $stmt->rowCount() > 0 ? true : false;
     }
 
-     public function remove(mixed $authentication)
+    public function remove(mixed $authentication)
     {
         $stmt = $this->conn->prepare(USER_SQL::DELETE());
 
