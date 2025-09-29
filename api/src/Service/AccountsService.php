@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
-use App\Model\Accounts;
 use App\Util\MessageUtil;
-use App\Util\Validation;
 use App\Util\ValidationUtil;
+use App\Model\Accounts;
+
 use PDOException;
+
 
 class AccountsService
 
