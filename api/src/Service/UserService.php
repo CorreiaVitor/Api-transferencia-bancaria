@@ -47,8 +47,13 @@ class UserService
 
             if (!$authentication)
                 return MessageUtil::unauthorized('Please, login to access this resource.');
+            
+            $user = $this->model->find($authentication);
+            
+            if (!$user)
+                return MessageUtil::error('User not authenticated.');
 
-            return $this->model->find($authentication);
+            return $user;
         } catch (PDOException $ex) {
             return ValidationUtil::errorBD($ex->errorInfo);
         } catch (\Exception $ex) {
