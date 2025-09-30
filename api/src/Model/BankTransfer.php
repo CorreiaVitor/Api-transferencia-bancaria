@@ -47,7 +47,7 @@ class BankTransfer extends Database
         return $user_to;
     }
 
-    public function updateSenderBalance(array $data, array $user_to, int $user_id)
+    public function updateSenderBalance(array $data, array $user_to, int $user_id) : int | bool
     {
         // Faz a alteração na conta do usuário que envia o valor monetário.
         $stmt = $this->conn->prepare(BANK_TRANSFER_SQL::UPDATE_SENDER_BALANCE());
@@ -63,7 +63,7 @@ class BankTransfer extends Database
         return $ret;
     }
 
-    public function updateReceiverBalance(array $data, $user_from)
+    public function updateReceiverBalance(array $data, $user_from) : int | bool
     {
         // Faz a alteração na conta do usuário que envia o valor monetário.
         $stmt = $this->conn->prepare(BANK_TRANSFER_SQL::UPDATE_RECEIVER_BALANCE());
@@ -79,7 +79,7 @@ class BankTransfer extends Database
         return $ret;
     }
 
-    public function MoneyTransfer(int $user_id, array $data)
+    public function MoneyTransfer(int $user_id, array $data) : mixed
     {
 
         $user_from = $this->fetchSenderAccountDetails($user_id);
@@ -134,5 +134,18 @@ class BankTransfer extends Database
             $this->conn->rollBack();
             return MessageUtil::error($ex->getMessage());
         }
+    }
+
+    public function listUserTransfers(array $auth) : array | bool
+    {
+        $stmt = $this->conn->prepare(BANK_TRANSFER_SQL::LIST_USER_TRANSFERS());
+
+        $stmt->execute(
+            [
+                $auth['id']
+            ]
+        );
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

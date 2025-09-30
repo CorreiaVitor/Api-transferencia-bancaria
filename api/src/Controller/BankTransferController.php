@@ -18,7 +18,7 @@ class BankTransferController
         $this->service = new BankTransferService;
     }
 
-    public function moneyTransfer() 
+    public function Transfers() : mixed
     {
         //Dados da requisição
         $body = Request::body();
@@ -38,6 +38,24 @@ class BankTransferController
             MessageUtil::success('Bank transaction completed successfully.'),
             201
         );
+    }
+
+    public function index() : mixed 
+    {
+        $authentication = Request::authorization();
+
+        $service = $this->service->index($authentication);
+
+        if (isset($service['error']))
+            return Response::json($service, 400);
+
+        elseif (isset($service['unauthorized']))
+            return Response::json($service, 401);
+
+        elseif (isset($service['dbError']))
+            return Response::json($service, 500);
+
+        return Response::json($service);
     }
 
 }

@@ -62,4 +62,28 @@ class BANK_TRANSFER_SQL
         
         return $sql;
     }
+
+    public static function LIST_USER_TRANSFERS() : string 
+    {
+        $sql = "SELECT 
+                    transfer_id,
+                    from_user.first_name as sender_name,
+                    from_account.bank_name as from_bank_name,
+                    amount,
+                    to_user.first_name as receiver_name,
+                    to_account.bank_name as to_bank_name
+                FROM
+                    tb_transactions
+                        INNER JOIN
+                    tb_bank_account as from_account ON tb_transactions.from_account_id = from_account.bank_id
+                        INNER JOIN 
+                    tb_bank_account as to_account ON tb_transactions.to_account_id = to_account.bank_id
+                        LEFT JOIN 
+                    tb_user as from_user ON from_account.tb_user_person_id = from_user.person_id
+                        LEFT JOIN 
+                    tb_user as to_user ON to_account.tb_user_person_id = to_user.person_id
+                        WHERE from_user.person_id = ?";
+
+        return $sql;
+    }
 }
