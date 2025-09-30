@@ -21,7 +21,8 @@ Router::delete("/accounts/{id}", "AccountsController:delete");
 
 //Transaction
 
-Router::post("/transfers", "BankTransferController:moneyTransfer");
+Router::get("/transfers", "BankTransferController:index");
+Router::post("/transfers", "BankTransferController:Transfers");
 
 
 
