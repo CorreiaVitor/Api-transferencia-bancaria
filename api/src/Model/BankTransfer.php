@@ -66,7 +66,7 @@ class BankTransfer extends Database
     public function updateReceiverBalance(array $data, $user_from)
     {
         // Faz a alteração na conta do usuário que envia o valor monetário.
-        $stmt = $this->conn->prepare(BANK_TRANSFER_SQL::UPDATE_SENDER_BALANCE());
+        $stmt = $this->conn->prepare(BANK_TRANSFER_SQL::UPDATE_RECEIVER_BALANCE());
 
         $stmt->bindValue(1, $data['amount']);
         $stmt->bindValue(2, $user_from['bank_id'], PDO::PARAM_INT);
