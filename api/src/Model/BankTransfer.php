@@ -148,4 +148,18 @@ class BankTransfer extends Database
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    public function getById(array $auth, int $transfer_id) : array | bool
+    {
+        $stmt = $this->conn->prepare(BANK_TRANSFER_SQL::GET_TRANSFERS_BY_ID());
+
+        $stmt->execute(
+            [
+                $auth['id'],
+                $transfer_id
+            ]
+        );
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

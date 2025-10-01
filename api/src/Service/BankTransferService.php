@@ -50,4 +50,19 @@ class BankTransferService
             return MessageUtil::error($ex->getMessage());
         }
     }
+
+    public function show(array $auth, int $transfer_id)
+    {
+        try {
+
+            if (!$auth)
+                return MessageUtil::unauthorized('Please, login to access this resource.');
+
+            return $this->model->getById($auth, $transfer_id);
+        } catch (PDOException $ex) {
+            return ValidationUtil::errorBD($ex->errorInfo);
+        } catch (\Exception $ex) {
+            return MessageUtil::error($ex->getMessage());
+        }
+    }
 }
