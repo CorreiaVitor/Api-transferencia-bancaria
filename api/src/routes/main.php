@@ -22,7 +22,7 @@ Router::delete("/accounts/{id}", "AccountsController:delete");
 //Transaction
 
 Router::get("/transfers", "BankTransferController:index");
-Router::post("/transfers", "BankTransferController:Transfers");
+Router::post("/transfers", "BankTransferController:store");
 
 
 
