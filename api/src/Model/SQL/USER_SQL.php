@@ -47,7 +47,14 @@ class USER_SQL
 
     public static function DELETE()
     {
-        $sql = "DELETE FROM tb_user WHERE person_id =?";
+        $sql = "DELETE FROM tb_user WHERE person_id = ?";
+
+        return $sql;
+    }
+
+    public static function DELETE_USER_ACCOUNT()
+    {
+        $sql = "DELETE FROM tb_bank_account WHERE tb_user_person_id = ?";
 
         return $sql;
     }

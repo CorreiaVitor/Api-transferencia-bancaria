@@ -2,8 +2,10 @@
 
 namespace App\Model;
 
+use App\Model\SQL\ACCOUNTS_SQL;
 use App\Model\SQL\USER_SQL;
 use App\Util\DateUtil;
+use App\Util\MessageUtil;
 use App\Util\ValidationUtil;
 use PDO;
 
@@ -58,7 +60,7 @@ class User extends Database
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update(array $data, mixed $authentication): bool
+    public function update(array $data, mixed $auth): bool
     {
         $stmt = $this->conn->prepare(USER_SQL::UPDATE());
 
@@ -69,21 +71,37 @@ class User extends Database
                 $data['email'],
                 ValidationUtil::passwordHash($data['password']),
                 DateUtil::currentDateTime(),
-                $authentication['id']
+                $auth['id']
             ]
         );
 
         return $stmt->rowCount() > 0 ? true : false;
     }
 
-    public function remove(mixed $authentication)
+    public function remove(mixed $auth)
     {
-        $stmt = $this->conn->prepare(USER_SQL::DELETE());
+        try {
+            $this->conn->beginTransaction();
 
-        $stmt->execute([
-            $authentication['id']
-        ]);
+            $stmt = $this->conn->prepare(USER_SQL::DELETE_USER_ACCOUNT());
 
-        return $stmt->rowCount() > 0 ? true : false;
+            $stmt->execute([
+                $auth['id']
+            ]);
+
+
+            $stmt = $this->conn->prepare(USER_SQL::DELETE());
+
+            $stmt->execute([
+                $auth['id']
+            ]);
+
+            $this->conn->commit();
+
+            return $stmt->rowCount() > 0 ? true : false;
+        } catch (\Exception $ex) {
+            $this->conn->rollBack();
+            return MessageUtil::error($ex->getMessage());
+        }
     }
 }
