@@ -10,11 +10,11 @@ O objetivo é simular um sistema de **transferência bancária entre usuários**
 > **Desafio (DevGym):**  
 > Crie um endpoint que receba dois IDs de usuários e um valor monetário representando uma transferência entre eles.  
 > Crie também um endpoint que receba o ID de um usuário e retorne o saldo atual.  
-> 
+>
 > Valide se o usuário de origem possui saldo suficiente antes de realizar a transferência.  
 > É necessário considerar a **concorrência**, onde duas pessoas podem transferir dinheiro simultaneamente para uma terceira.  
 > Caso uma transferência falhe, o saldo do usuário de origem deve ser **restaurado**.  
-> 
+>
 > Não é necessário criar endpoints para cadastro de usuários — basta popular o banco com dados iniciais.
 
 ---
@@ -27,7 +27,6 @@ Foram implementados os seguintes recursos adicionais:
 
 - **CRUD de Usuários** → criar, listar, atualizar e excluir usuários  
 - **CRUD de Contas** → gerenciar contas bancárias vinculadas aos usuários  
-- **CRUD de Bancos** → cadastro e manutenção de bancos disponíveis  
 - **Autenticação JWT** → proteção dos endpoints com login e token  
 - **Validação de saldo e concorrência** nas transferências  
 - **Tratamento de erros e rollback** em caso de falhas  
@@ -48,38 +47,48 @@ Foram implementados os seguintes recursos adicionais:
 ## Endpoints principais
 
 ### Autenticação
-- `POST /login` → autentica um usuário e retorna o token JWT
+
+- `POST /auth/login` → autentica um usuário e retorna o token JWT
 
 ### 👤 Usuários
+
 - `POST /users` → cria um novo usuário  
 - `GET /users` → lista todos os usuários  
-- `GET /users/{id}` → retorna um usuário específico  
-- `PUT /users/{id}` → atualiza os dados de um usuário  
-- `DELETE /users/{id}` → remove um usuário  
-
-### 🏦 Bancos
-- `POST /banks` → cria um banco  
-- `GET /banks` → lista bancos  
-- `PUT /banks/{id}` → atualiza informações  
-- `DELETE /banks/{id}` → remove um banco  
+- `GET /users/` → retorna um usuário específico  
+- `PUT /users/` → atualiza os dados de um usuário  
+- `DELETE /users/` → remove um usuário  
 
 ### 💰 Contas
+
 - `POST /accounts` → cria uma conta bancária para um usuário  
 - `GET /accounts/{id}` → exibe informações da conta  
 - `PUT /accounts/{id}` → atualiza dados da conta  
 - `DELETE /accounts/{id}` → remove uma conta  
 
 ### 🔄 Transferências
+
 - `POST /transfers` → realiza a transferência entre dois usuários  
   **Body exemplo:**
+
   ```json
   {
-    "from_user_id": 1,
-    "to_user_id": 2,
-    "amount": 150.00
+    "error": false,
+    "success": true,
+    "message": "Bank transaction completed successfully."
   }
   ```
-- `GET /balance/{user_id}` → retorna o saldo atual do usuário  
+
+- `GET /transfer/{user_id}` → retorna a trasferência
+
+   ```json
+  {
+    "sender_name": "Vitor",
+    "from_bank_name": "Nubank",
+    "amount": "50.00",
+    "receiver_name": "Maria",
+    "to_bank_name": "Banco do Brasil"
+  }
+  ```
 
 ---
 
@@ -89,13 +98,14 @@ Foram implementados os seguintes recursos adicionais:
 - Controle de concorrência (duas transferências simultâneas)  
 - Rollback automático em caso de erro  
 - Middleware de autenticação JWT  
-- Estrutura organizada em **Controllers**, **Models**, **Routes** e **Middlewares**
+- Estrutura organizada em **Controllers**, **Models**, **Routes** e **Services**
 
 ---
 
 ## 🧠 Aprendizado
 
 Este projeto foi criado com o objetivo de **aprofundar o conhecimento** em:
+
 - Estruturação de APIs REST com PHP  
 - Boas práticas de código e separação de responsabilidades  
 - Implementação de autenticação com JWT  
