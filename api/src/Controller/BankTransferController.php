@@ -18,7 +18,7 @@ class BankTransferController
         $this->service = new BankTransferService;
     }
 
-    public function Transfers(): mixed
+    public function store(): mixed
     {
         //Dados da requisição
         $body = Request::body();
